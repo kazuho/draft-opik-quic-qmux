@@ -405,7 +405,7 @@ This section explores options such protocols might employ for version
 negotiation and upgrade.
 
 
-9.1. Incompatible Version Negotiation
+## Incompatible Version Negotiation
 
 When a new QUIC version that provides a different interface to applications is
 specified, application protocols developed for that QUIC version might be
@@ -425,7 +425,7 @@ in use.
 not QX_TRANSPORT_PARAMETERS.]
 
 
-9.2. Compatible Version Negotiation
+## Compatible Version Negotiation
 
 A newly defined counterpart might first start communication over QMux and then
 switch versions in-band during the session. The advantage of this approach is
