@@ -477,7 +477,7 @@ Table of Contents
 
 9.  Version Agility
 
-   Unlike QUIC version 1, QMux does not define a built-in mechanism for
+   Unlike QUIC version 1, QMux does not include a built-in mechanism for
    version negotiation.  However, as new versions of QUIC are specified,
    there may be a desire to define their reliable-byte-stream
    counterparts in a way that allows them to coexist with QMux.
