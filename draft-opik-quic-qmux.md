@@ -396,17 +396,45 @@ if the transport is blocked by flow or congestion control.
 
 # Version Agility
 
-Unlike QUIC, QMux does not define a mechanism for version negotiation.
+Unlike QUIC version 1, QMux does not include a built-in mechanism for version
+negotiation. However, as new versions of QUIC are specified, there may be a
+desire to define their reliable-byte-stream counterparts in a way that allows
+them to coexist with QMux.
 
-In large-scale deployments requiring service and protocol version discovery,
-QMux can and is likely to be implemented over TLS. The
-Application-Layer Protocol Negotiation Extension of TLS {{?ALPN=RFC7301}} is the
-favored mechanism to negotiate between an application protocol based on this
-specification and others.
+This section explores options such protocols might employ for version
+negotiation and upgrade.
 
-When ALPN is unavailable, first 8 bytes exchanged on the transport (i.e., the
-type field of the QX_TRANSPORT_PARAMETERS frame in the encoded form) can be used
-to identify if QMux is in use.
+
+9.1. Incompatible Version Negotiation
+
+When a new QUIC version that provides a different interface to applications is
+specified, application protocols developed for that QUIC version might be
+assigned a new identifier for the TLS Application-Layer Protocol Negotiation
+(ALPN) extension [ALPN].
+
+Similarly, when TLS is the underlying transport, the reliable-byte-stream
+counterpart of such QUIC versions could rely on ALPN to negotiate whether the
+new protocol or QMux should be used.
+
+When TLS is not the underlying transport, endpoints can use the first 8 bytes
+exchanged on the transport (i.e., the type field of the
+QX_TRANSPORT_PARAMETERS frame in the encoded form) to identify whether QMux is
+in use.
+
+[TODO: discuss how endpoints should behave when the first 8 bytes received are
+not QX_TRANSPORT_PARAMETERS.]
+
+
+9.2. Compatible Version Negotiation
+
+A newly defined counterpart might first start communication over QMux and then
+switch versions in-band during the session. The advantage of this approach is
+that, even when TLS is not in use, no additional round-trip is incurred for
+version negotiation.
+
+While QMux does not specify a concrete method, such a counterpart could define a
+new Transport Parameter that enumerates the protocols supported by the
+endpoints, and use it to discover supported versions and coordinate the switch.
 
 
 # Implementation Considerations
