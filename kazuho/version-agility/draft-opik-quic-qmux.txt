@@ -5,12 +5,12 @@
 QUIC                                                              K. Oku
 Internet-Draft                                                    Fastly
 Intended status: Standards Track                               L. Pardue
-Expires: 12 May 2026                                          Cloudflare
+Expires: 17 May 2026                                          Cloudflare
                                                               J. Iyengar
                                                                  Netflix
                                                               E. Kinnear
                                                                    Apple
-                                                         8 November 2025
+                                                        13 November 2025
 
 
                                   QMux
@@ -18,8 +18,9 @@ Expires: 12 May 2026                                          Cloudflare
 
 Abstract
 
-   This document specifies a polyfill of QUIC version 1 that runs on top
-   of bi-directional streams such as TLS.
+   This document specifies QMux version 1.  QMux version 1 provides,
+   over bi-directional streams such as TLS, the same set of stream and
+   datagram operations that applications rely upon in QUIC version 1.
 
 Discussion Venues
 
@@ -47,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 May 2026.
+   This Internet-Draft will expire on 17 May 2026.
 
 Copyright Notice
 
@@ -83,8 +84,8 @@ Table of Contents
    8.  Extensions
      8.1.  Unreliable Datagram Extension
    9.  Version Agility
-     9.1.  Incompatible Version Negotiation
-     9.2.  Compatible Version Negotiation
+     9.1.  Negotiation Using ALPN
+     9.2.  In-band Upgrade
    10. Implementation Considerations
    11. Security Considerations
    12. IANA Considerations
@@ -479,24 +480,40 @@ Table of Contents
 
 9.  Version Agility
 
-   Unlike QUIC version 1, QMux does not include a built-in mechanism for
-   version negotiation.  However, as new versions of QUIC are specified,
-   there may be a desire to define their reliable-byte-stream
-   counterparts in a way that allows them to coexist with QMux.
+   As new versions of QUIC are specified, there may be a desire to
+   define their reliable-byte-stream counterparts as different versions
+   of QMux, and to provide ways of negotiating the version to be used.
 
-   This section explores options such protocols might employ for version
-   negotiation and upgrade.
+   QUIC starts each connection with a handshake that uses packets
+   carrying an explicit version number.  Using that field, Version-
+   Independent Properties of QUIC [QUIC-INVARIANTS] defines a version
+   negotiation mechanism that involves a retry.  Compatible Version
+   Negotiation for QUIC [QUIC-CVN] defines another negotiation mechanism
+   for switching between compatible versions during the handshake
+   without retrying.
 
-9.1.  Incompatible Version Negotiation
+   By contrast, QMux does not perform the connection handshake by
+   itself; the connection is set up by the underlying substrate, and
+   QMux exchanges only the Transport Parameters after the connection is
+   established.
+
+   Due to these differences, the negotiation mechanisms used by QUIC and
+   QMux will differ.
+
+   This section explores options that future versions of QMux might
+   employ for version negotiation and upgrade.
+
+9.1.  Negotiation Using ALPN
 
    When a new QUIC version that provides a different interface to
    applications is specified, application protocols developed for that
-   QUIC version might be assigned a new identifier for the TLS
-   Application-Layer Protocol Negotiation (ALPN) extension [ALPN].
+   version might be assigned a new identifier for the TLS Application-
+   Layer Protocol Negotiation (ALPN) extension [ALPN].
 
-   Similarly, when TLS is the underlying transport, the reliable-byte-
-   stream counterpart of such QUIC versions could rely on ALPN to
-   negotiate whether the new protocol or QMux should be used.
+   Similarly, when TLS is the underlying transport, application
+   protocols built on top of the QMux counterparts of such QUIC versions
+   can rely on ALPN to negotiate both the application protocol and the
+   underlying QMux version.
 
    When TLS is not the underlying transport, endpoints can use the first
    8 bytes exchanged on the transport (i.e., the type field of the
@@ -506,17 +523,16 @@ Table of Contents
    [TODO: discuss how endpoints should behave when the first 8 bytes
    received are not QX_TRANSPORT_PARAMETERS.]
 
-9.2.  Compatible Version Negotiation
+9.2.  In-band Upgrade
 
-   A newly defined counterpart might first start communication over QMux
-   and then switch versions in-band during the session.  The advantage
-   of this approach is that, even when TLS is not in use, no additional
-   round-trip is incurred for version negotiation.
+   A new verson of QMux might first start communication using QMux
+   version 1 and then switch versions in-band during the session.  The
+   advantage of this approach is that, even when TLS is not in use, no
+   additional round-trip is incurred for version negotiation.
 
-   While QMux does not specify a concrete method, such a counterpart
-   could define a new Transport Parameter that enumerates the protocols
-   supported by the endpoints, and use it to discover supported versions
-   and coordinate the switch.
+   While QMux version 1 does not specify a concrete method, new versions
+   might use the version_information Transport Parameter Section 3 of
+   [QUIC-CVN] to discover supported versions and coordinate the switch.
 
 10.  Implementation Considerations
 
@@ -575,6 +591,11 @@ Table of Contents
 
 13.2.  Informative References
 
+   [ALPN]     Friedl, S., Popov, A., Langley, A., and E. Stephan,
+              "Transport Layer Security (TLS) Application-Layer Protocol
+              Negotiation Extension", RFC 7301, DOI 10.17487/RFC7301,
+              July 2014, <https://www.rfc-editor.org/rfc/rfc7301>.
+
    [h2-stream-limits]
               Thomson, M. and L. Pardue, "Using HTTP/3 Stream Limits in
               HTTP/2", Work in Progress, Internet-Draft, draft-thomson-
@@ -597,6 +618,15 @@ Table of Contents
               Oku, K. and L. Pardue, "Extensible Prioritization Scheme
               for HTTP", RFC 9218, DOI 10.17487/RFC9218, June 2022,
               <https://www.rfc-editor.org/rfc/rfc9218>.
+
+   [QUIC-CVN] Schinazi, D. and E. Rescorla, "Compatible Version
+              Negotiation for QUIC", RFC 9368, DOI 10.17487/RFC9368, May
+              2023, <https://www.rfc-editor.org/rfc/rfc9368>.
+
+   [QUIC-INVARIANTS]
+              Thomson, M., "Version-Independent Properties of QUIC",
+              RFC 8999, DOI 10.17487/RFC8999, May 2021,
+              <https://www.rfc-editor.org/rfc/rfc8999>.
 
    [TCP]      Eddy, W., Ed., "Transmission Control Protocol (TCP)",
               STD 7, RFC 9293, DOI 10.17487/RFC9293, August 2022,
