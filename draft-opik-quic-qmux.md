@@ -447,7 +447,7 @@ is that, even when TLS is not in use, no additional round-trip is incurred for
 version negotiation.
 
 While QMux version 1 does not specify a concrete method, new versions might use
-the version_information Transport Parameter {{Section 3 of QUIC-CVN}} to
+the version_information Transport Parameter ({{Section 3 of QUIC-CVN}}) to
 discover supported versions and coordinate the switch.
 
 
