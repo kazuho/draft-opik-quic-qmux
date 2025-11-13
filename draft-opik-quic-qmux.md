@@ -424,7 +424,7 @@ version negotiation and upgrade.
 When a new QUIC version that provides a different interface to applications is
 specified, application protocols developed for that version might be assigned a
 new identifier for the TLS Application-Layer Protocol Negotiation (ALPN)
-extension {{ALPN}}.
+extension {{?ALPN=RFC7301}}.
 
 Similarly, when TLS is the underlying transport, application protocols built on
 top of the QMux counterparts of such QUIC versions can rely on ALPN to negotiate
