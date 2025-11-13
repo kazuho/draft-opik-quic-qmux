@@ -23,8 +23,9 @@ author:
 
 --- abstract
 
-This document specifies a polyfill of QUIC version 1 that runs on top of
-bi-directional streams such as TLS.
+This document specifies QMux version 1. QMux version 1 provides, over
+bi-directional streams such as TLS, the same set of stream and datagram
+operations that applications rely upon in QUIC version 1.
 
 
 --- middle
