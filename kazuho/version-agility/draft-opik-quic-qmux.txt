@@ -529,8 +529,8 @@ Table of Contents
    additional round-trip is incurred for version negotiation.
 
    While QMux version 1 does not specify a concrete method, new versions
-   might use the version_information Transport Parameter Section 3 of
-   [QUIC-CVN] to discover supported versions and coordinate the switch.
+   might use the version_information Transport Parameter (Section 3 of
+   [QUIC-CVN]) to discover supported versions and coordinate the switch.
 
 10.  Implementation Considerations
 
