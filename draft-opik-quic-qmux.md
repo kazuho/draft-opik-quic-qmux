@@ -397,25 +397,38 @@ if the transport is blocked by flow or congestion control.
 
 # Version Agility
 
-Unlike QUIC version 1, QMux does not include a built-in mechanism for version
-negotiation. However, as new versions of QUIC are specified, there may be a
-desire to define their reliable-byte-stream counterparts in a way that allows
-them to coexist with QMux.
+As new versions of QUIC are specified, there may be a desire to define their
+reliable-byte-stream counterparts as different versions of QMux, and to provide
+ways of negotiating the version to be used.
 
-This section explores options such protocols might employ for version
-negotiation and upgrade.
+QUIC starts each connection with a handshake that uses packets carrying an
+explicit version number. Using that field, Version-Independent Properties of
+QUIC {{?QUIC-INVARIANTS=RFC8999}} defines a version negotiation mechanism that
+involves a retry. Compatible Version Negotiation for QUIC
+{{?QUIC-CVN=RFC9368}} defines another negotiation mechanism for switching
+between compatible versions during the handshake without retrying.
+
+By contrast, QMux does not perform the connection handshake by itself; the
+connection is set up by the underlying substrate, and QMux exchanges only the
+Transport Parameters after the connection is established.
+
+Due to these differences, the negotiation mechanisms used by QUIC and QMux will
+differ.
+
+This section explores options that future versions of QMux might employ for
+version negotiation and upgrade.
 
 
-## Incompatible Version Negotiation
+## Negotiation Using ALPN
 
 When a new QUIC version that provides a different interface to applications is
-specified, application protocols developed for that QUIC version might be
-assigned a new identifier for the TLS Application-Layer Protocol Negotiation
-(ALPN) extension [ALPN].
+specified, application protocols developed for that version might be assigned a
+new identifier for the TLS Application-Layer Protocol Negotiation (ALPN)
+extension {{ALPN}}.
 
-Similarly, when TLS is the underlying transport, the reliable-byte-stream
-counterpart of such QUIC versions could rely on ALPN to negotiate whether the
-new protocol or QMux should be used.
+Similarly, when TLS is the underlying transport, application protocols built on
+top of the QMux counterparts of such QUIC versions can rely on ALPN to negotiate
+both the application protocol and the underlying QMux version.
 
 When TLS is not the underlying transport, endpoints can use the first 8 bytes
 exchanged on the transport (i.e., the type field of the
@@ -426,16 +439,16 @@ in use.
 not QX_TRANSPORT_PARAMETERS.]
 
 
-## Compatible Version Negotiation
+## In-band Upgrade
 
-A newly defined counterpart might first start communication over QMux and then
-switch versions in-band during the session. The advantage of this approach is
-that, even when TLS is not in use, no additional round-trip is incurred for
+A new verson of QMux might first start communication using QMux version 1 and
+then switch versions in-band during the session. The advantage of this approach
+is that, even when TLS is not in use, no additional round-trip is incurred for
 version negotiation.
 
-While QMux does not specify a concrete method, such a counterpart could define a
-new Transport Parameter that enumerates the protocols supported by the
-endpoints, and use it to discover supported versions and coordinate the switch.
+While QMux version 1 does not specify a concrete method, new versions might use
+the version_information Transport Parameter {{Section 3 of QUIC-CVN}} to
+discover supported versions and coordinate the switch.
 
 
 # Implementation Considerations
