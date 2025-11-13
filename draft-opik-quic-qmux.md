@@ -401,16 +401,16 @@ As new versions of QUIC are specified, there may be a desire to define their
 reliable-byte-stream counterparts as different versions of QMux, and to provide
 ways of negotiating the version to be used.
 
-QUIC starts each connection with a handshake that uses packets carrying an
-explicit version number. Using that field, Version-Independent Properties of
+QUIC establishes connections using packets carrying an explicit version number.
+Using that field, Version-Independent Properties of
 QUIC {{?QUIC-INVARIANTS=RFC8999}} defines a version negotiation mechanism that
 involves a retry. Compatible Version Negotiation for QUIC
 {{?QUIC-CVN=RFC9368}} defines another negotiation mechanism for switching
-between compatible versions during the handshake without retrying.
+between compatible versions during connection establishment without retrying.
 
-By contrast, QMux does not perform the connection handshake by itself; the
-connection is set up by the underlying substrate, and QMux exchanges only the
-Transport Parameters after the connection is established.
+By contrast, QMux does not establish connections by itself; the connections are
+set up by the underlying substrate, and QMux exchanges only the Transport
+Parameters after they are established.
 
 Due to these differences, the negotiation mechanisms used by QUIC and QMux will
 differ.
