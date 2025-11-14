@@ -498,7 +498,7 @@ Table of Contents
    Due to these differences, the negotiation mechanisms used by QUIC and
    QMux will differ.
 
-   This section explores options that future versions of QMux might
+   This section explores some options that future versions of QMux might
    employ for version negotiation and upgrade.
 
 9.1.  Negotiation Using ALPN
