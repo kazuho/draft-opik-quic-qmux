@@ -415,7 +415,7 @@ Parameters after they are established.
 Due to these differences, the negotiation mechanisms used by QUIC and QMux will
 differ.
 
-This section explores options that future versions of QMux might employ for
+This section explores some options that future versions of QMux might employ for
 version negotiation and upgrade.
 
 
