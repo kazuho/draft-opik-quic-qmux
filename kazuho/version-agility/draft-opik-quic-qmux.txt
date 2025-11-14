@@ -5,12 +5,12 @@
 QUIC                                                              K. Oku
 Internet-Draft                                                    Fastly
 Intended status: Standards Track                               L. Pardue
-Expires: 17 May 2026                                          Cloudflare
+Expires: 18 May 2026                                          Cloudflare
                                                               J. Iyengar
                                                                  Netflix
                                                               E. Kinnear
                                                                    Apple
-                                                        13 November 2025
+                                                        14 November 2025
 
 
                                   QMux
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 May 2026.
+   This Internet-Draft will expire on 18 May 2026.
 
 Copyright Notice
 
@@ -523,7 +523,7 @@ Table of Contents
 
 9.2.  In-band Upgrade
 
-   A new verson of QMux might first start communication using QMux
+   A new version of QMux might first start communication using QMux
    version 1 and then switch versions in-band during the session.  The
    advantage of this approach is that, even when TLS is not in use, no
    additional round-trip is incurred for version negotiation.
