@@ -308,7 +308,7 @@ affect stream state are considered acknowledged at that point.
 Because QMux does not have ACK frames, applications can never use
 acknowledgments to assume that the peer application has received data. ACKs in
 QUIC version 1 do not provide such a guarantee either, although the protocol
-allows implementations to send ACKs only after data has been delviered to the
+allows implementations to send ACKs only after data has been delivered to the
 application ({{Section 13.1 of QUIC}}).
 
 
