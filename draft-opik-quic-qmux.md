@@ -441,7 +441,7 @@ not QX_TRANSPORT_PARAMETERS.]
 
 ## In-band Upgrade
 
-A new verson of QMux might first start communication using QMux version 1 and
+A new version of QMux might first start communication using QMux version 1 and
 then switch versions in-band during the session. The advantage of this approach
 is that, even when TLS is not in use, no additional round-trip is incurred for
 version negotiation.
