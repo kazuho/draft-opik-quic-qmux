@@ -385,7 +385,7 @@ Table of Contents
    acknowledgments to assume that the peer application has received
    data.  ACKs in QUIC version 1 do not provide such a guarantee either,
    although the protocol allows implementations to send ACKs only after
-   data has been delviered to the application (Section 13.1 of [QUIC]).
+   data has been delivered to the application (Section 13.1 of [QUIC]).
 
 6.  Transport Parameters
 
