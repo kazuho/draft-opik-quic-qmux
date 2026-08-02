@@ -576,8 +576,10 @@ connection silently without sending a FIN, a RST, or any TLS records, if all of
 the following conditions are met:
 
 * The idle timeout is long enough that all data previously sent by either peer
-  can be assumed to have been delivered to the QMux stack on the other side.
-* The application protocol is robust against truncation.
+  can be reasonably assumed to have been delivered to the QMux stack on the
+  other side.
+* The application protocol is resilient to truncation caused by abrupt
+  termination of the underlying connection.
 
 By discarding the connection silently, endpoints avoid waking up the radio and
 conserve energy, though if an endpoint receives a packet after discarding the
