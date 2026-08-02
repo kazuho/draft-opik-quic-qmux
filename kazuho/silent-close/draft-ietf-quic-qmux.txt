@@ -5,12 +5,12 @@
 QUIC                                                              K. Oku
 Internet-Draft                                                    Fastly
 Intended status: Standards Track                               L. Pardue
-Expires: 2 February 2027                                      Cloudflare
+Expires: 3 February 2027                                      Cloudflare
                                                               J. Iyengar
                                                                  Netflix
                                                               E. Kinnear
                                                                    Apple
-                                                           1 August 2026
+                                                           2 August 2026
 
 
                                   QMux
@@ -48,7 +48,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 February 2027.
+   This Internet-Draft will expire on 3 February 2027.
 
 Copyright Notice
 
@@ -689,10 +689,11 @@ Table of Contents
    if all of the following conditions are met:
 
    *  The idle timeout is long enough that all data previously sent by
-      either peer can be assumed to have been delivered to the QMux
-      stack on the other side.
+      either peer can be reasonably assumed to have been delivered to
+      the QMux stack on the other side.
 
-   *  The application protocol is robust against truncation.
+   *  The application protocol is resilient to truncation caused by
+      abrupt termination of the underlying connection.
 
    By discarding the connection silently, endpoints avoid waking up the
    radio and conserve energy, though if an endpoint receives a packet
